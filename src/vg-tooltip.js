@@ -244,7 +244,8 @@
       switch (supplementedFieldOption.formatType) {
         case "time":
           supplementedFieldOption.format = fieldDef.timeUnit ?
-            vl.timeUnit.format(fieldDef.timeUnit) : timeFormat;
+            vl.timeUnit.template(fieldDef.timeUnit, "", false).match(/time:'[%-a-z]*'/i)[0].split("'")[1]
+            : timeFormat;
           break;
         case "number":
           supplementedFieldOption.format = numberFormat;
