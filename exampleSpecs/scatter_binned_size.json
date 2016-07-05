@@ -1,6 +1,6 @@
 {
   "description": "A scatterplot showing horsepower and miles per gallons with binned acceleration on size.",
-  "data": {"url": "data/cars.json"},
+  "data": {"url": "https://vega.github.io/vega-datasets/data/cars.json"},
   "mark": "point",
   "encoding": {
     "x": {"field": "Horsepower","type": "quantitative"},

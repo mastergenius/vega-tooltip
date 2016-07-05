@@ -6,12 +6,12 @@
   "data": [
     {
       "name": "edges",
-      "url": "data/miserables.json",
+      "url": "https://vega.github.io/vega-datasets/data/miserables.json",
       "format": {"type": "json", "property": "links"}
     },
     {
       "name": "nodes",
-      "url": "data/miserables.json",
+      "url": "https://vega.github.io/vega-datasets/data/miserables.json",
       "format": {"type": "json", "property": "nodes"},
       "transform": [
         {

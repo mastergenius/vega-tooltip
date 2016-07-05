@@ -1,5 +1,5 @@
 {
-  "data": {"url": "data/movies.json"},
+  "data": {"url": "https://vega.github.io/vega-datasets/data/movies.json"},
   "mark": "square",
   "encoding": {
     "x": {

@@ -1,6 +1,6 @@
 {
   "description": "A bubbleplot showing year on x, mean horsepower on y, and population standard deviation of horsepower on size and color.",
-  "data": {"url": "data/cars.json"},
+  "data": {"url": "https://vega.github.io/vega-datasets/data/cars.json"},
   "mark": "circle",
   "encoding": {
     "y": {
