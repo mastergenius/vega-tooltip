@@ -84,17 +84,14 @@
     // fields to be supplemented by vlSpec
     var supplementedFields = [];
 
-    var timeFormat = vlSpec.config ? vlSpec.config.timeFormat : undefined;
-    var numberFormat = vlSpec.config ? vlSpec.config.numberFormat : undefined;
-
     // if showAllFields is true or undefined, supplement all fields in vlSpec
     if (options.showAllFields !== false) {
       vl.spec.fieldDefs(vlSpec).forEach(function(fieldDef){
         // get a fieldOption in options that matches the fieldDef
         var fieldOption = getFieldOption(options.fields, fieldDef);
 
-        // supplement the fieldOption with fieldDef, timeFormat and numberFormat
-        var supplementedFieldOption = supplementFieldOption(fieldOption, fieldDef, timeFormat, numberFormat);
+        // supplement the fieldOption with fieldDef and config
+        var supplementedFieldOption = supplementFieldOption(fieldOption, fieldDef, vlSpec.config);
 
         supplementedFields.push(supplementedFieldOption);
       });
@@ -106,8 +103,8 @@
           // get the fieldDef in vlSpec that matches the fieldOption
           var fieldDef = getFieldDef(vl.spec.fieldDefs(vlSpec), fieldOption);
 
-          // supplement the fieldOption with fieldDef, timeFormat and numberFormat
-          var supplementedFieldOption = supplementFieldOption(fieldOption, fieldDef, timeFormat, numberFormat);
+          // supplement the fieldOption with fieldDef and config
+          var supplementedFieldOption = supplementFieldOption(fieldOption, fieldDef, vlSpec.config);
 
           supplementedFields.push(supplementedFieldOption);
         })
@@ -202,12 +199,16 @@
   }
 
   /**
-  * Supplement a fieldOption (from options.fields[]) with a fieldDef, timeFormat and numberFormat
+  * Supplement a fieldOption (from options.fields[]) with a fieldDef, config 
+  * (which provides timeFormat, numberFormat, countTitle)
   * Either fieldOption or fieldDef can be undefined, but they cannot both be undefined.
-  * timeFormat and numberFormat can be undefined.
+  * config (and its members timeFormat, numberFormat and countTitle) can be undefined.
   * @return the supplemented fieldOption, or undefined on error
   */
-  function supplementFieldOption(fieldOption, fieldDef, timeFormat, numberFormat) {
+  function supplementFieldOption(fieldOption, fieldDef, config) {
+    var timeFormat = config ? config.timeFormat : undefined;
+    var numberFormat = config ? config.numberFormat : undefined;
+
     // at least one of fieldOption and fieldDef should exist
     if (!fieldOption && !fieldDef) {
       console.error("[Tooltip] Cannot supplement a field when field and fieldDef are both empty.");
@@ -229,7 +230,7 @@
 
     // supplement title
     supplementedFieldOption.title = fieldOption.title ?
-      fieldOption.title : vl.fieldDef.title(fieldDef);
+      fieldOption.title : vl.fieldDef.title(fieldDef, config);
 
     // supplement formatType
     supplementedFieldOption.formatType = fieldOption.formatType ?
@@ -246,7 +247,7 @@
           supplementedFieldOption.format = fieldDef.timeUnit ?
             // TODO(zening): use template for all time fields, to be consistent with Vega-Lite
             vl.timeUnit.template(fieldDef.timeUnit, "", false).match(/time:'[%-a-z]*'/i)[0].split("'")[1]
-            : timeFormat;
+              : timeFormat;
           break;
         case "number":
           supplementedFieldOption.format = numberFormat;
